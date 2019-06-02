@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBAction func onClick(_ sender: UIButton) {
+            startOver(sender: sender)
+    }
+    
     class MyButton: UIButton {
         var row: Int
         var col: Int
@@ -33,12 +37,15 @@ class ViewController: UIViewController {
     let d_count = 8
     let size_row = 9
     let size_col = 9
+    let totalMines = 10
     
     var buttons = [[MyButton]]()
     var mines = Array(repeating: Array(repeating: false, count: 9), count: 9)
     var visited = Array(repeating: Array(repeating: false, count: 9), count: 9)
     var d_row = [0, 1, 1, 1, 0, -1, -1, -1]
     var d_col = [1, 1, 0, -1, -1, -1, 0, 1]
+    var vis = 0
+    var gameOver = false
 
     func drawButtons(view:UIView) {
         for i in 0...size_row-1 {
@@ -60,7 +67,7 @@ class ViewController: UIViewController {
     
     func prepareMines() {
         var selected = 0
-        while selected < 10 {
+        while selected < totalMines {
             let randomInt = Int.random(in: 0..<80)
             let row = randomInt / 9
             let col = randomInt % 9
@@ -114,7 +121,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func regularButton(sender:MyButton){
+        if gameOver {
+            return
+        }
         visited[sender.row][sender.col] = true
+        vis += 1
         sender.setTitleColor(UIColor.black, for: .normal)
         let mineCount = countMines(row: sender.row, col: sender.col)
         sender.setTitle(String(mineCount), for: .normal)
@@ -130,13 +141,29 @@ class ViewController: UIViewController {
                 }
             }
         }
+        
+        if vis == size_row * size_col - totalMines {
+            configureLabelWithText(text: "You won!")
+            for i in 0...size_row-1 {
+                for j in 0...size_col-1 {
+                    if !visited[i][j] && mines[i][j] {
+                        mineButton(sender: buttons[i][j])
+                    }
+                }
+            }
+        }
     }
     
     //MARK: - Actions and Selectors
     @IBAction func mineButton(sender:MyButton){
+        if gameOver {
+            return
+        }
         visited[sender.row][sender.col] = true
         sender.setTitle("X", for: .normal)
         sender.setTitleColor(UIColor.red, for: .normal)
+        configureLabelWithText(text: "Game over!")
+        gameOver = true
     }
     
     func configureLabelWithText(text:String){
@@ -164,9 +191,20 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showMessage(sender: UIButton) {
-        let alertController = UIAlertController(title: "Welcome to My First App", message: "Hello World", preferredStyle: UIAlertController.Style.alert)
+        let alertController = UIAlertController(title: "Welcome to My First App", message: "Start over", preferredStyle: UIAlertController.Style.alert)
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func startOver(sender:UIButton){
+        configureLabelWithText(text: "Minesweeper by Maggie")
+        buttons = [[MyButton]]()
+        mines = Array(repeating: Array(repeating: false, count: 9), count: 9)
+        visited = Array(repeating: Array(repeating: false, count: 9), count: 9)
+        vis = 0
+        gameOver = false
+        prepareMines()
+        drawButtons(view: view)
     }
 }
 
