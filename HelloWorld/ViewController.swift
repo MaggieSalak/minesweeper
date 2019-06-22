@@ -53,8 +53,8 @@ class ViewController: UIViewController {
             for j in 0...size_col-1 {
                 let myButton = makeButton(
                     text: "?",
-                    d_x: CGFloat((i-1)*36),
-                    d_y: CGFloat((j-1)*36),
+                    d_x: CGFloat((j-1)*36),
+                    d_y: CGFloat((i-1)*36),
                     mine: mines[Int(i)][Int(j)],
                     row: i,
                     col: j)
@@ -124,6 +124,7 @@ class ViewController: UIViewController {
         if gameOver {
             return
         }
+        //configureLabelWithText(text: String(sender.row) + " " + String(sender.col) + " " + String(mines[sender.row][sender.col]))
         visited[sender.row][sender.col] = true
         vis += 1
         sender.setTitleColor(UIColor.black, for: .normal)
@@ -146,7 +147,7 @@ class ViewController: UIViewController {
             configureLabelWithText(text: "You won!")
             for i in 0...size_row-1 {
                 for j in 0...size_col-1 {
-                    if !visited[i][j] && mines[i][j] {
+                    if mines[i][j] {
                         mineButton(sender: buttons[i][j])
                     }
                 }
