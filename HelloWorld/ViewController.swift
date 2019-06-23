@@ -125,6 +125,11 @@ class ViewController: UIViewController {
         if gameOver {
             return
         }
+        
+        if visited[sender.row][sender.col] {
+            return
+        }
+        
         //configureLabelWithText(text: String(sender.row) + " " + String(sender.col) + " " + String(mines[sender.row][sender.col]))
         visited[sender.row][sender.col] = true
         vis += 1
