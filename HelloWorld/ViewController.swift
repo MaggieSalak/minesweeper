@@ -128,6 +128,7 @@ class ViewController: UIViewController {
         visited[sender.row][sender.col] = true
         vis += 1
         sender.setTitleColor(UIColor.black, for: .normal)
+        sender.backgroundColor = UIColor.lightGray
         let mineCount = countMines(row: sender.row, col: sender.col)
         sender.setTitle(String(mineCount), for: .normal)
         
