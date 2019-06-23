@@ -45,6 +45,7 @@ class ViewController: UIViewController {
     var d_row = [0, 1, 1, 1, 0, -1, -1, -1]
     var d_col = [1, 1, 0, -1, -1, -1, 0, 1]
     var vis = 0
+    var won = false
     var gameOver = false
 
     func drawButtons(view:UIView) {
@@ -145,6 +146,7 @@ class ViewController: UIViewController {
         }
         
         if vis == size_row * size_col - totalMines {
+            won = true
             configureLabelWithText(text: "You won!")
             for i in 0...size_row-1 {
                 for j in 0...size_col-1 {
@@ -164,8 +166,11 @@ class ViewController: UIViewController {
         visited[sender.row][sender.col] = true
         sender.setTitle("X", for: .normal)
         sender.setTitleColor(UIColor.red, for: .normal)
-        configureLabelWithText(text: "Game over!")
-        gameOver = true
+        if !won {
+            sender.backgroundColor = UIColor.darkGray
+            configureLabelWithText(text: "Game over!")
+            gameOver = true
+        }
     }
     
     func configureLabelWithText(text:String){
@@ -192,11 +197,14 @@ class ViewController: UIViewController {
         //view.addSubview(makeButton(text: "?"))
     }
     
-    @IBAction func showMessage(sender: UIButton) {
-        let alertController = UIAlertController(title: "Welcome to My First App", message: "Start over", preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
+//    @IBAction func showMessage(sender: UIButton) {
+//        let alertController = UIAlertController(
+//            title: "Welcome to Minesweeper by Maggie",
+//            message: "Start over",
+//            preferredStyle: UIAlertController.Style.alert)
+//        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//        present(alertController, animated: true, completion: nil)
+//    }
     
     @IBAction func startOver(sender:UIButton){
         configureLabelWithText(text: "Minesweeper by Maggie")
@@ -205,6 +213,7 @@ class ViewController: UIViewController {
         visited = Array(repeating: Array(repeating: false, count: 9), count: 9)
         vis = 0
         gameOver = false
+        won = false
         prepareMines()
         drawButtons(view: view)
     }

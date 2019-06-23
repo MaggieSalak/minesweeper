@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ICx-bp-t4W">
-                                <rect key="frame" x="157" y="505" width="68" height="30"/>
+                                <rect key="frame" x="169" y="506" width="68" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Start over">
                                     <color key="titleColor" red="0.045072629593712832" green="0.18232961818372684" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
